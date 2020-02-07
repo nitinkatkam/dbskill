@@ -1,0 +1,48 @@
+<h2 class="title">List</h2>
+
+<ul class="listing">
+<% @personnel_list.each do |iter| %>
+  <li>
+    <div style="display: inline-block; vertical-align: top; width: 100px; height: 140px; border: dashed 1px gray; margin-right: 10px; padding: 10px;">
+    &nbsp;
+    <span style="font-size: 8pt;">No Picture Set</span>
+    </div>
+    <div  style="display: inline-block; vertical-align: top;">
+    Code: <b><%= iter['_id'] %></b><br />
+    Name: <%= iter['name'] %><br />
+    Designation: <%= iter['designation'] %><br />
+    Company: <%= iter['company'] %><br />
+    City: <%= iter['city'] %><br />
+    Country: <%= iter['country'] %><br />
+    Gender: <%= iter['gender'] %><br />
+    Nationality: <%= iter['nationality'] %><br />
+    Manager: <%= iter['manager'] %><br />
+    <a href="/personnel/edit/<%= iter['_id'] %>" class="button">Edit</a>
+    <form method="post" action="/personnel/delete/<%= iter['_id'] %>" style="display: inline">
+      <input type="submit" value="Delete" class="button" />
+    </form>
+    </div>
+  </li>
+<% end %>
+</ul>
+
+<div>
+<p style="font-weight: bold;">Explain</p>
+<pre>
+<% 
+@explainer = @explainer['executionStats']
+@explainer.delete 'allPlansExecution'
+strExplain = JSON.pretty_generate(@explainer) 
+strExplain.gsub! 'COLLSCAN', '<font  size="4"color="red"><b>COLLSCAN</b></font>'
+strExplain.gsub! 'SORT_KEY_GENERATOR', '<font  size="4"color="red"><b>SORT_KEY_GENERATOR</b></font>'
+strExplain.gsub! 'IXSCAN', '<font size="4" color="green"><b>IXSCAN</b></font>'
+strExplain.gsub! 'IDHACK', '<font size="4" color="green"><b>IDHACK</b></font>'
+strExplain.gsub! 'totalDocsExamined', '<font size="4"><b>totalDocsExamined</b></font>'
+strExplain.gsub! 'totalKeysExamined', '<font size="4"><b>totalKeysExamined</b></font>'
+strExplain.gsub! 'nReturned', '<font size="4"><b>nReturned</b></font>'
+%>
+<%=
+strExplain
+%>
+</pre>
+</div>

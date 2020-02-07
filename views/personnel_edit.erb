@@ -1,0 +1,106 @@
+<form class="linesepfields" method="post" action="/personnel/save">
+  <div class="field">
+  <label class="label" for="_id_input">ID</label>
+  <div class="control" style="width: 300px;">
+  <input class="input" placeholder="_id" id="_id_input" name="_id" value="<%= if @person != nil then @person['_id'] end %>" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label" for="name_input">Name</label>
+  <div class="control" style="width: 500px;">
+  <input class="input" placeholder="name" id="name_input" name="name" value="<%= if @person != nil then @person['name'] end %>" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label" for="designation_input">Designation</label>
+  <div class="control" style="width: 500px;">
+  <input class="input" placeholder="designation" id="designation_input" name="designation" value="<%= if @person != nil then @person['designation'] end %>" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label" for="dept_input">Department</label>
+  <div class="control" style="width: 500px;">
+  <input class="input" placeholder="department" id="dept_input" name="dept" value="<%= if @person != nil then @person['dept'] end %>" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label" for="company_input">Company</label>
+  <div class="control" style="width: 500px;">
+  <input class="input" placeholder="company" id="company_input" name="company" value="<%= if @person != nil then @person['company'] end %>" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label" for="city_input">City</label>
+  <div class="control" style="width: 300px;">
+  <input class="input" placeholder="city" id="city_input" name="city" value="<%= if @person != nil then @person['city'] end %>" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label" for="country_input">Country</label>
+  <div class="control" style="width: 300px;">
+  <input class="input" placeholder="country" id="country_input" name="country" value="<%= if @person != nil then @person['country'] end %>" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label" for="gender_input">Gender</label>
+  <div class="control" style="width: 300px;">
+  <input class="input" placeholder="gender" id="gender_input" name="gender" value="<%= if @person != nil then @person['gender'] end %>" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label" for="nationality_input">Nationality</label>
+  <div class="control" style="width: 300px;">
+  <input class="input" placeholder="nationality" id="nationality_input" name="nationality" value="<%= if @person != nil then @person['nationality'] end %>" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label">Birth date</label>
+  <div class="control" style="width: 300px;">
+  <input type="date" name="birthdate" class="input" placeholder="Birth date" value="<%= @person['birthdate'].strftime("%F") if not @person != nil and @person['birthdate'] != nil and @person['birthdate'] != '' %>" pattern="\d{4}-\d{2}-\d{2}" />
+  <div>*Safari not supported</div>
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label">Anniversary date</label>
+  <div class="control" style="width: 300px;">
+  <input type="date" name="anniversarydate" class="input" placeholder="Anniversary date" value="<%= @person['anniversarydate'].strftime("%F") if not @person != nil and @person['anniversarydate'] != nil and @person['anniversarydate'] != '' %>" pattern="\d{4}-\d{2}-\d{2}" />
+  <div>*Safari not supported</div>
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label">Hire date</label>
+  <div class="control" style="width: 300px;">
+  <input type="date" name="hiredate" class="input" placeholder="Hire date" value="<%= @person['hiredate'].strftime("%F") if not @person != nil and @person['hiredate'] != nil and @person['hiredate'] != '' %>" pattern="\d{4}-\d{2}-\d{2}" />
+  <div>*Safari not supported</div>
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label" for="manager_input">Manager</label>
+  <div class="control" style="width: 500px;">
+  <input class="input" placeholder="manager" id="manager_input" name="manager" value="<%= if @person != nil then @person['manager'] end %>" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label" for="skills_input">Skills</label>
+  <div class="control" style="width: 500px;">
+  <textarea class="input" placeholder="Skills" id="skills_input" name="skills"><%= if @person != nil then @person['skills'] end %></textarea>
+  </div>
+  </div>
+
+  <!-- TODO: Skills, Pictures -->
+  
+  <input type="submit" class= "button is-link" />
+</form>

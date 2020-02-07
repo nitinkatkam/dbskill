@@ -1,0 +1,66 @@
+<!doctype html><html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Employee Information System</title>
+<link rel="stylesheet" href="/css/bulma.min.css" /><!-- Bulma v0.8.0 -->
+<link rel="stylesheet" href="/css/style.css?t=<%= Time.now.to_i %>" />
+<script defer src="/js/all.js"></script><!-- FontAwesome v5.3.1 -->
+<script defer src="/js/navmenu.js"></script><!-- Nav. menu for Bulma -->
+</head>
+<body>
+
+
+<div>
+<h1 class="title">Employee Information System</h1>
+</div>
+
+<nav class="navbar is-link" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="mainNavBar">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="mainNavBar" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="/">
+        Home
+      </a>
+
+      <a class="navbar-item" href="/personnel/new">
+        New Personnel
+      </a>
+
+      <a class="navbar-item" href="/personnel/list">
+        List Personnel
+      </a>
+
+      <a class="navbar-item" href="/personnel/search">
+        Search Personnel
+      </a>
+
+      <a class="navbar-item" href="#"><!-- /content/share -->
+        Share Content
+      </a>
+
+      <a class="navbar-item" href="/personnel/skillmatch">
+        Skill Match
+      </a>
+    </div>
+  </div>
+</nav>
+
+
+
+<section class="section" style="padding: 0.5rem 1.5rem">
+<div class="container">
+<%= yield %>
+</div>
+</section>
+
+
+</body>
+</html>

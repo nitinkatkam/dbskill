@@ -1,0 +1,8 @@
+div > h1.title { padding: 15px; }
+form.linesepfields > label { display: block; margin-top: 15px; }
+form.linesepfields > input[type~=submit] { display: block; margin-top: 15px; }
+form.linesepfields > input[type~=submit].button { display: inline; margin-top: 0px; }
+ul.listing > li { margin-bottom: 25px; }
+h2.title { font-size: 20pt; }
+h3.title { font-size: 18pt; }
+ul.stream > li { padding: 20px 15px; border: dashed 1px gray; border-radius: 8px; margin-bottom: 25px; }

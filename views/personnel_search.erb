@@ -1,0 +1,98 @@
+<script>
+isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+function anotherField() {
+  var myForm = document.getElementById('myForm');
+
+  if ('content' in document.createElement('template') && !isSafari) {
+    var tplSearchField = document.querySelector('#tplSearchField');
+    var instanceOftplSearchField = tplSearchField.content.cloneNode(true);
+    myForm.appendChild(instanceOftplSearchField);
+  } else {
+    var divEl = document.createElement('div');
+    var fnEl = document.createElement('input');
+    var fvEl = document.createElement('input');
+    
+    fnEl.name = 'fieldname[]';
+    fnEl.placeholder = 'Search Field Name';
+    divEl.appendChild(fnEl);
+    
+    fvEl.name = 'fieldvalue[]';
+    fvEl.placeholder = 'Search Field Value';
+    divEl.appendChild(fvEl);
+    
+    myForm.appendChild(divEl);
+  }
+
+  return false;
+}
+
+function anotherSortField() {
+  var myForm = document.getElementById('myForm');
+
+  if ('content' in document.createElement('template') && !isSafari) {
+    var tplSortField = document.querySelector('#tplSortField');
+    var instanceOftplSortField = tplSortField.content.cloneNode(true);
+    myForm.appendChild(instanceOftplSortField);
+  } else {
+    var divEl = document.createElement('div');
+    var fnEl = document.createElement('input');
+    
+    fnEl.name = 'sortfieldname[]';
+    fnEl.placeholder = 'Sort Field Name';
+    divEl.appendChild(fnEl);
+    
+    myForm.appendChild(divEl);
+  }
+
+  return false;
+}
+</script>
+<form method="post" action="/personnel/find" id="myForm">
+<button class="button" onclick="return anotherField();">Add Search Field</button>
+<button class="button" onclick="return anotherSortField();">Add Sort Field</button>
+<input class="button is-link" type="submit" value="Search" />
+
+<template id="tplSearchField">
+<div style="margin-bottom: 35px; margin-top: 10px;">
+  <div class="field">
+  <label class="label">Search Field Name</label>
+  <div class="control" style="width: 300px;">
+  <input class="input" list="fieldnames" name="fieldname[]" placeholder="Field Name" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label">Search Field Value</label>
+  <div class="control" style="width: 300px;">
+  <input class="input" name="fieldvalue[]" placeholder="Field Value" />
+  </div>
+  </div>
+</div>
+</template>
+
+
+<template id="tplSortField">
+<div style="margin-bottom: 35px; margin-top: 10px;">
+  <div class="field">
+  <label class="label">Sort Field Name</label>
+  <div class="control" style="width: 300px;">
+  <input class="input" list="fieldnames" name="sortfieldname[]" placeholder="Field Name" />
+  </div>
+  </div>
+</div>
+</template>
+
+</form>
+
+<datalist id="fieldnames">
+<option value="_id" />
+<option value="name" />
+<option value="designation" />
+<option value="company" />
+<option value="city" />
+<option value="country" />
+<option value="gender" />
+<option value="nationality" />
+<option value="manager" />
+</datalist>
