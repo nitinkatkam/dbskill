@@ -49,12 +49,17 @@ end
 get '/personnel/edit/:id' do
     @personnel = client['personnel'].find({"_id": params['id']})
     @person = @personnel.first()
+    if @person['skills'] != nil
+        skilarr = @person['skills']
+        @person['skills'] = skilarr.join ', '
+    end
     erb :personnel_edit
 end
 
 post '/personnel/delete/:id' do
     client['personnel'].delete_one({"_id": params['id']})
-    'Deleted'
+
+    redirect '/personnel/list'
 end
 
 get '/personnel/list' do
@@ -65,13 +70,23 @@ end
 
 post '/personnel/save' do
     doc = params
+    
     # doc['_id'] = doc['code']
+    
+    skillarr = []
+    for iterskill in doc['skills'].split(',')
+        skillarr.append iterskill.lstrip.rstrip
+    end
+    doc['skills'] = skillarr
+
     # if not doc.has_key?('_id') or doc('_id') == nil
         # client['personnel'].insert_one(doc, {writeConcern: 1})
     # else
         client['personnel'].update_one({'_id': doc['_id']}, { '$set' => doc }, {upsert: TRUE, multi: FALSE, writeConcern: 1})
     #     #BSON::ObjectId.from_string(doc_id)
     # end
+
+    redirect '/personnel/list'
 end
 
 
@@ -85,8 +100,19 @@ get '/personnel/skillmatch' do
 end
 
 
+post '/personnel/skillmatch' do
+    @keyword = params['skills']    
+    @personnel_list = client['personnel'].find(
+        {'skills' => params['skills']}, 
+        {'collation' => { "locale" => "en_US", 'strength' => 2 }}
+    ) #TODO: Create an index for this collation
+
+    erb :personnel_skillmatch
+end
+
+
 post '/personnel/find' do
-    'Size: ' + params['fieldname'].length.to_s
+    # 'Size: ' + params['fieldname'].length.to_s
     numFields = params['fieldname'].length
     
     criteria = {}
@@ -97,7 +123,10 @@ post '/personnel/find' do
         end
     end
 
-    @personnel_list = client['personnel'].find(criteria) #.sort({"manager": 1})
+    @personnel_list = client['personnel'].find(
+        criteria, 
+        'collation' => { "locale" => "en_US", 'strength' => 2 }
+    ) #.sort({"manager": 1})
 
     sort_criteria = {}
     if params.has_key? 'sortfieldname' #and params['sortfieldname'].length > 0

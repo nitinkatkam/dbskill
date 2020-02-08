@@ -1,8 +1,8 @@
-<form>
+<form method="post" action="/personnel/skillmatch">
   <div class="field">
   <label class="label" for="skill_input">Search for Skill</label>
   <div class="control" style="width: 500px;">
-  <input class="input" placeholder="skill" id="skill_input" name="skill" />
+  <input class="input" placeholder="skill" id="skill_input" name="skills" />
   </div>
   </div>
 
@@ -11,7 +11,40 @@
 
 <br /><br />
 
-<h3 class="title">Search Results for: "Javascript"</h3>
+
+<% if @personnel_list != nil %>
+<h3 class="title">Search Results for: "<%= @keyword %>"</h3>
+
+<ul class="listing">
+<% @personnel_list.each do |iter| %>
+  <li>
+    <div style="display: inline-block; vertical-align: top; width: 100px; height: 140px; border: dashed 1px gray; margin-right: 10px; padding: 10px;">
+    &nbsp;
+    <span style="font-size: 8pt;">No Picture Set</span>
+    </div>
+    <div  style="display: inline-block; vertical-align: top;">
+    Code: <b><%= iter['_id'] %></b><br />
+    Name: <%= iter['name'] %><br />
+    Designation: <%= iter['designation'] %><br />
+    Company: <%= iter['company'] %><br />
+    City: <%= iter['city'] %><br />
+    Country: <%= iter['country'] %><br />
+    Gender: <%= iter['gender'] %><br />
+    Nationality: <%= iter['nationality'] %><br />
+    Manager: <%= iter['manager'] %><br />
+    <a href="/personnel/edit/<%= iter['_id'] %>" class="button">Edit</a>
+    <form method="post" action="/personnel/delete/<%= iter['_id'] %>" style="display: inline">
+      <input type="submit" value="Delete" class="button" />
+    </form>
+    </div>
+  </li>
+<% end %>
+</ul>
+
+
+<% end %>
+
+<%# 
 <ul>
   <li>
     <strong>Neil</strong><br />
@@ -21,4 +54,5 @@
     <strong>Nidhi</strong><br />
     ExpressJS, NodeJS, Javascript
   </li>
-</ul>
+</ul> 
+%>
