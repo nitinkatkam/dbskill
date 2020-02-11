@@ -32,6 +32,14 @@
     Gender: <%= iter['gender'] %><br />
     Nationality: <%= iter['nationality'] %><br />
     Manager: <%= iter['manager'] %><br />
+    <%
+    if iter['skills'] != nil
+      skills_csv = iter['skills'].join ', '
+    %>
+    Skills: <%= skills_csv %><br />
+    <%
+    end
+    %>
     <a href="/personnel/edit/<%= iter['_id'] %>" class="button">Edit</a>
     <form method="post" action="/personnel/delete/<%= iter['_id'] %>" style="display: inline">
       <input type="submit" value="Delete" class="button" />
