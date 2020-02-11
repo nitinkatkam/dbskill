@@ -1,4 +1,4 @@
-<form class="linesepfields" method="post" action="/personnel/save">
+<form class="linesepfields" method="post" action="/personnel/save" enctype="multipart/form-data">
   <div class="field">
   <label class="label" for="_id_input">ID</label>
   <div class="control" style="width: 300px;">
@@ -65,7 +65,7 @@
   <div class="field">
   <label class="label">Birth date</label>
   <div class="control" style="width: 300px;">
-  <input type="date" name="birthdate" class="input" placeholder="Birth date" value="<%= @person['birthdate'].strftime("%F") if not @person != nil and @person['birthdate'] != nil and @person['birthdate'] != '' %>" pattern="\d{4}-\d{2}-\d{2}" />
+  <input type="date" name="birthdate" class="input" placeholder="Birth date" value="<%= @person['birthdate'] if not @person != nil and @person['birthdate'] != nil and @person['birthdate'] != '' %>" pattern="\d{4}-\d{2}-\d{2}" />
   <div>*Safari not supported</div>
   </div>
   </div>
@@ -100,7 +100,17 @@
   </div>
   </div>
 
-  <!-- TODO: Skills, Pictures -->
+  <div class="field">
+  <label class="label" for="skills_input">Profile Pic</label>
+  <div class="control" style="width: 500px;">
+  <input type="file" class="input" placeholder="Profile Pic" id="profilepic_input" name="profilepic" />
+  </div>
+  <% if @person['profilepic'] %>
+    <div>
+    <img src="<%= @person['profilepic'] %>" style="display: inline-block; vertical-align: top; width: 100px; height: 140px; border: solid 1px gray; margin-right: 10px; padding: 0px;" />
+    </div>
+  <% end %>
+  </div>
   
   <input type="submit" class= "button is-link" />
 </form>

@@ -17,11 +17,39 @@ enable :sessions, :logging
 
 client = Mongo::Client.new(settings.db[:uri])
 
-logger = Logger.new(STDOUT)
-# logger = Logger.new('logfile.log')
+# logger = Logger.new(STDOUT)
+logger = Logger.new('logfile.log')
 logger.level = Logger::INFO
 
 get '/' do
+    #TODO: Set the find criteria to birthdate $lte Date.today + 7 and birthdate $gte Date.today - 1
+    @bdays = client['personnel'].find({"birthdate" => {'$exists' => TRUE} }).sort({'birthdate' => 1}).to_a
+
+    @upcoming = []
+    @notupcoming = []
+    @bdays.each { |bday|        
+        iter_date = bday['birthdate'] #Gives a Time object, not a Date object
+        if iter_date == nil then next end
+
+        begin
+            iter_date = Date.parse(iter_date.to_s)
+            age = ((Date.today - iter_date).to_i/365).floor
+            
+            next_bday_date = iter_date.next_year(age)
+            if next_bday_date < Date.today then next_bday_date = iter_date.next_year(age+1) end
+
+            # logger.info "Checking #{next_bday_date}"
+            
+            if next_bday_date - Date.today < 7
+                bday['next_bday_date'] = next_bday_date
+                @upcoming.append(bday)
+            end
+        rescue
+            nil
+        end
+    }
+    @upcoming.sort! { |a,b| a['next_bday_date'] <=> b['next_bday_date'] }
+
     erb :home
 end
 
@@ -71,8 +99,19 @@ end
 post '/personnel/save' do
     doc = params
     
-    # doc['_id'] = doc['code']
+    logger.info params['profilepic']
+
+    if params['profilepic']
+        filename = params['profilepic']['filename']
+        tempfile = params['profilepic']['tempfile']
+        target = '/files/profilepic_' + doc['_id'] + File.extname(filename) #"public/files/#{filename}"
+      
+        File.open('public'+target, 'wb') {|f| f.write tempfile.read }
     
+        doc['profilepic'] = target #Target is given to browsers in img src
+        doc['profilepic_filename'] = filename  #Keep original filename
+    end
+
     skillarr = []
     for iterskill in doc['skills'].split(',')
         skillarr.append iterskill.lstrip.rstrip

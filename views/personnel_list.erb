@@ -3,10 +3,15 @@
 <ul class="listing">
 <% @personnel_list.each do |iter| %>
   <li>
+    <% if not iter['profilepic'] %>
     <div style="display: inline-block; vertical-align: top; width: 100px; height: 140px; border: dashed 1px gray; margin-right: 10px; padding: 10px;">
     &nbsp;
     <span style="font-size: 8pt;">No Picture Set</span>
     </div>
+    <% else %>
+    <img src="<%= iter['profilepic'] %>" style="display: inline-block; vertical-align: top; width: 100px; height: 140px; border: solid 1px gray; margin-right: 10px; padding: 0px;" />
+    <% end %>
+
     <div  style="display: inline-block; vertical-align: top;">
     Code: <b><%= iter['_id'] %></b><br />
     Name: <%= iter['name'] %><br />
@@ -17,6 +22,14 @@
     Gender: <%= iter['gender'] %><br />
     Nationality: <%= iter['nationality'] %><br />
     Manager: <%= iter['manager'] %><br />
+    <%
+    if iter['skills'] != nil
+      skills_csv = iter['skills'].join ', '
+    %>
+    Skills: <%= skills_csv %><br />
+    <%
+    end
+    %>
     <a href="/personnel/edit/<%= iter['_id'] %>" class="button">Edit</a>
     <form method="post" action="/personnel/delete/<%= iter['_id'] %>" style="display: inline">
       <input type="submit" value="Delete" class="button" />
