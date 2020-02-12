@@ -6,3 +6,7 @@ db:
   uri: 'mongodb://127.0.0.1:27017/test'
 instance:
   name: 'Alpha Centauri'
+search:
+  matchType: 'equals' #'regex'
+hacks:
+  preload_new_personnel: 'true' #'false'

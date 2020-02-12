@@ -1,7 +1,38 @@
 <h2 class="title">Activity Stream</h2>
 
+<%
+  icons = {
+    'birthday' => '<i class="fas fa-birthday-cake"></i>',
+    'hiredate' => '<i class="fas fa-user-tie"></i>',
+    'anniversary' => '<i class="fas fa-glass-martini-alt"></i>'
+  }
+  a_event_text = {
+    'birthday' => 'a birthday',
+    'hiredate' => 'a work-anniversary',
+    'anniversary' => 'an anniversary'
+  }  
+%>
+
 <ul class="stream">
+  <% @events.each do |iter| %>
     <li>
+      <%= icons[iter['type']] %>
+      &nbsp;
+      <%= iter['name'] %> (<%= iter['_id'] %>) has <%= a_event_text[iter['type']] %>
+      today
+      <!--
+      &nbsp;
+      Name: <%= iter['name'] %>
+      &nbsp;
+      Type: <%= iter['type'] %>
+      &nbsp;
+      Date: <%= iter['date'] %>
+      &nbsp;
+      Date This Year: <%= iter['date_this_year'] %>
+      -->
+    </li>
+  <% end %>
+    <%# <li>
       <i class="fas fa-birthday-cake"></i>
       &nbsp;
       Birthday: Neil
@@ -15,9 +46,9 @@
       <i class="fas fa-glass-martini-alt"></i>
       &nbsp;
       Wedding Anniversary: Neil
-    </li>
-  <li>
-    Content: Replication in MongoDB<br /><br />
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/asO_S_iWJVY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  </li>
+    </li> %>
+    <%# <li>
+      Content: Replication in MongoDB<br /><br />
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/asO_S_iWJVY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </li> %>
 </ul>
