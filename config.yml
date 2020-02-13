@@ -7,6 +7,7 @@ db:
 instance:
   name: 'Alpha Centauri'
 search:
-  matchType: 'equals' #'regex'
+  matchType: 'regex' #'regex' or 'equals'
 hacks:
-  preload_new_personnel: 'true' #'false'
+  preload_new_personnel: 'true' #'true' or 'false'
+  show_explain: 'true' #'true' or 'false'

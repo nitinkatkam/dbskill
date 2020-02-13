@@ -26,6 +26,7 @@ logger.level = Logger::INFO
 # TODO
 get '/' do
     @events = get_todays_events(client)
+    @explainer = @events.explain()
     erb :home
 end
 
@@ -129,6 +130,7 @@ get '/personnel/edit/:id' do
         skilarr = @person['skills']
         @person['skills'] = skilarr.join ', '
     end
+    @explainer = @personnel.explain()
     erb :personnel_edit
 end
 
@@ -218,7 +220,7 @@ post '/personnel/skillmatch' do
         {'skills' => params['skills']}, 
         {'collation' => { "locale" => "en_US", 'strength' => 2 }}
     ) #TODO: Create an index for this collation
-
+    @explainer = @personnel_list.explain()
     erb :personnel_skillmatch
 end
 

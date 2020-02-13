@@ -38,24 +38,3 @@
   </li>
 <% end %>
 </ul>
-
-<div>
-<p style="font-weight: bold;">Explain</p>
-<pre>
-<% 
-@explainer = @explainer['executionStats']
-@explainer.delete 'allPlansExecution'
-strExplain = JSON.pretty_generate(@explainer) 
-strExplain.gsub! 'COLLSCAN', '<font  size="4"color="red"><b>COLLSCAN</b></font>'
-strExplain.gsub! 'SORT_KEY_GENERATOR', '<font  size="4"color="red"><b>SORT_KEY_GENERATOR</b></font>'
-strExplain.gsub! 'IXSCAN', '<font size="4" color="green"><b>IXSCAN</b></font>'
-strExplain.gsub! 'IDHACK', '<font size="4" color="green"><b>IDHACK</b></font>'
-strExplain.gsub! 'totalDocsExamined', '<font size="4"><b>totalDocsExamined</b></font>'
-strExplain.gsub! 'totalKeysExamined', '<font size="4"><b>totalKeysExamined</b></font>'
-strExplain.gsub! 'nReturned', '<font size="4"><b>nReturned</b></font>'
-%>
-<%=
-strExplain
-%>
-</pre>
-</div>

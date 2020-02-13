@@ -1,0 +1,22 @@
+<% if settings.hacks['show_explain'] == 'true' and @explainer != nil %>
+<div>
+<p style="font-weight: bold;">Explain</p><br />
+<pre>
+<% 
+if @explainer.key?('executionStats') then @explainer = @explainer['executionStats'] end
+if @explainer.key?('allPlansExecution') then @explainer.delete 'allPlansExecution' end
+strExplain = JSON.pretty_generate(@explainer) 
+strExplain.gsub! 'COLLSCAN', '<font  size="4"color="red"><b>COLLSCAN</b></font>'
+strExplain.gsub! 'SORT_KEY_GENERATOR', '<font  size="4"color="red"><b>SORT_KEY_GENERATOR</b></font>'
+strExplain.gsub! 'IXSCAN', '<font size="4" color="green"><b>IXSCAN</b></font>'
+strExplain.gsub! 'IDHACK', '<font size="4" color="green"><b>IDHACK</b></font>'
+strExplain.gsub! 'totalDocsExamined', '<font size="4"><b>totalDocsExamined</b></font>'
+strExplain.gsub! 'totalKeysExamined', '<font size="4"><b>totalKeysExamined</b></font>'
+strExplain.gsub! 'nReturned', '<font size="4"><b>nReturned</b></font>'
+%>
+<%=
+strExplain
+%>
+</pre>
+</div>
+<% end %>
