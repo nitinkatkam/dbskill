@@ -264,3 +264,23 @@ post '/personnel/find' do
     @explainer = @personnel_list.explain()
     erb :personnel_list
 end
+
+
+get '/attendance/checkin' do
+    erb :attendance_checkin
+end
+
+post '/attendance/checkin' do
+    # TODO: Validation
+    # TODO: personnel_id should come from the login
+    # ['personnel_id', 'timein', 'timeout', 'location_name']
+    client['attendance_checkin'].insert_one params
+    # erb :attendance_checkin
+    redirect '/'
+end
+
+get '/attendance/review' do
+    @checkindata = client['attendance_checkin'].find()
+    @explainer = @checkindata.explain()
+    erb :attendance_review
+end

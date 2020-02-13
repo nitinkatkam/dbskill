@@ -1,0 +1,16 @@
+<table style="width: 80%">
+  <tr>
+    <th>Personnel ID</th>
+    <th>Time-In</th>
+    <th>Time-Out</th>
+    <th>Location</th>
+  </tr>
+<% @checkindata.each do |iter| %>
+  <tr>
+    <td><%= iter['personnel_id'] %></td>
+    <td><%= iter['timein'] %></td>
+    <td><%= iter['timeout'] %></td>
+    <td><%= iter['location_name'] %></td>
+  </tr>
+<% end %>
+</table>

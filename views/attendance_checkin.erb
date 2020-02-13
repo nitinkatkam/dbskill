@@ -1,0 +1,31 @@
+<form method="post" action="/attendance/checkin">
+  <div class="field">
+  <label class="label" for="_id_input">ID</label>
+  <div class="control" style="width: 300px;">
+  <input class="input" placeholder="Personnel ID" id="personnel_id_input" name="personnel_id" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label" for="_id_input">Time In</label>
+  <div class="control" style="width: 300px;">
+  <input class="input" type="datetime-local" placeholder="timein" id="timein_input" name="timein" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label" for="_id_input">Time Out</label>
+  <div class="control" style="width: 300px;">
+  <input class="input" type="datetime-local" placeholder="timeout" id="timeout_input" name="timeout" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label" for="_id_input">Location</label>
+  <div class="control" style="width: 300px;">
+  <input class="input" placeholder="Location" id="location_name_input" name="location_name" />
+  </div>
+  </div>
+
+  <input type="submit" class="button is-link" value="Check In" />
+</form>
