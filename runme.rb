@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'sinatra/config_file'
 require 'mongo'
+require 'bson'
 require 'date'
 require 'json'
 require 'logger'
@@ -193,7 +194,7 @@ post '/personnel/save' do
     # if not doc.has_key?('_id') or doc('_id') == nil
         # client['personnel'].insert_one(doc, {writeConcern: 1})
     # else
-        client['personnel'].update_one({'_id': doc['_id']}, { '$set' => doc }, {upsert: TRUE, multi: FALSE, writeConcern: 1})
+        client['personnel'].update_one({'_id' => doc['_id']}, { '$set' => doc }, {upsert: TRUE, multi: FALSE, writeConcern: 1})
     #     #BSON::ObjectId.from_string(doc_id)
     # end
 
@@ -267,6 +268,8 @@ end
 
 
 get '/attendance/checkin' do
+    @projects = client['project'].find()
+    @explainer = @projects.explain()
     erb :attendance_checkin
 end
 
@@ -274,7 +277,25 @@ post '/attendance/checkin' do
     # TODO: Validation
     # TODO: personnel_id should come from the login
     # ['personnel_id', 'timein', 'timeout', 'location_name']
-    client['attendance_checkin'].insert_one params
+    dbobj = {}
+
+    if params['project_id'] == '' then
+        params.delete 'project_id'
+    else
+        bson_project_id = BSON::ObjectId.from_string(params['project_id'])
+        project_obj = client['project'].find({'_id' => bson_project_id}).first()
+        # return project_obj.class.to_s + ' :::> ' + project_obj.to_s
+        dbobj['project'] = {
+            '_id' => bson_project_id,
+            'name' => project_obj['name']
+        }
+    end
+
+    ['personnel_id', 'timein', 'timeout', 'location_name'].each do |iterkey|
+        dbobj[iterkey] = params[iterkey]
+    end
+
+    client['attendance_checkin'].insert_one dbobj
     # erb :attendance_checkin
     redirect '/'
 end
@@ -283,4 +304,64 @@ get '/attendance/review' do
     @checkindata = client['attendance_checkin'].find()
     @explainer = @checkindata.explain()
     erb :attendance_review
+end
+
+get '/project/list' do
+    @projects = client['project'].find()
+    @explainer = @projects.explain()
+    erb :project_list
+end
+
+post '/project/save' do
+    # TODO: Upsert logic
+    if (params.has_key?('_id') and params['_id'] != '') then
+        _id = params['_id']
+        params.delete '_id'
+        client['project'].update_one(
+            { '_id' => BSON::ObjectId.from_string(_id) },
+            {'$set' => params},
+            {'upsert' => true}
+        )
+    else
+        params.delete '_id'
+        client['project'].insert_one(
+            params
+        )
+    end
+    redirect '/project/list'
+end
+
+get '/project/edit/:id' do
+    @project = client['project'].find({'_id' => BSON::ObjectId.from_string(params['id']) }).first()
+    # @explainer = @project.explain()
+    erb :project_edit
+end
+
+get '/project/new' do
+    erb :project_edit
+end
+
+post '/project/delete/:id' do
+    client['project'].delete_one(
+        { '_id' => BSON::ObjectId.from_string(params['id']) }
+    )
+    redirect '/project/list'
+end
+
+post '/project/assign/:id' do
+    #TODO : Validate
+    client['project'].update_one(
+        { '_id' => BSON::ObjectId.from_string(params['id']) },
+        {'$addToSet' => {'personnel' => params['personnel_id']} }  #$addToSet instead of $push
+    )
+    redirect '/project/edit/'+params['id']
+end
+
+post '/project/unassign/:id' do
+    #TODO : Validate
+    client['project'].update_one(
+        { '_id' => BSON::ObjectId.from_string(params['id']) },
+        {'$pull' => {'personnel' => params['personnel_id']} }  #$addToSet instead of $push
+    )
+    redirect '/project/edit/'+params['id']
 end

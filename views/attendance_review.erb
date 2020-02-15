@@ -4,6 +4,7 @@
     <th>Time-In</th>
     <th>Time-Out</th>
     <th>Location</th>
+    <th>Project</th>
   </tr>
 <% @checkindata.each do |iter| %>
   <tr>
@@ -11,6 +12,7 @@
     <td><%= iter['timein'] %></td>
     <td><%= iter['timeout'] %></td>
     <td><%= iter['location_name'] %></td>
+    <td><%= if iter['project'] then iter['project']['name'] else '' end %></td>
   </tr>
 <% end %>
 </table>

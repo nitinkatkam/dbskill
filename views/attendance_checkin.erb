@@ -1,31 +1,45 @@
 <form method="post" action="/attendance/checkin">
   <div class="field">
-  <label class="label" for="_id_input">ID</label>
+  <label class="label" for="personnel_id_input">Personnel ID</label>
   <div class="control" style="width: 300px;">
   <input class="input" placeholder="Personnel ID" id="personnel_id_input" name="personnel_id" />
   </div>
   </div>
 
   <div class="field">
-  <label class="label" for="_id_input">Time In</label>
+  <label class="label" for="timein_input">Time In</label>
   <div class="control" style="width: 300px;">
   <input class="input" type="datetime-local" placeholder="timein" id="timein_input" name="timein" />
   </div>
   </div>
 
   <div class="field">
-  <label class="label" for="_id_input">Time Out</label>
+  <label class="label" for="timeout_input">Time Out</label>
   <div class="control" style="width: 300px;">
   <input class="input" type="datetime-local" placeholder="timeout" id="timeout_input" name="timeout" />
   </div>
   </div>
 
   <div class="field">
-  <label class="label" for="_id_input">Location</label>
+  <label class="label" for="location_name_input">Location</label>
   <div class="control" style="width: 300px;">
   <input class="input" placeholder="Location" id="location_name_input" name="location_name" />
   </div>
   </div>
+
+  <div class="field">
+  <label class="label" for="project_id_input">Project</label>
+  <div class="select">
+  <select placeholder="Project" id="project_id_input" name="project_id" style="width: 300px;">
+  <option></option>
+  <% @projects.each do |prj| %>
+  <option value="<%= prj['_id'] %>"><%= prj['name'] %></option>
+  <% end %>
+  </select>
+  </div>
+  </div>
+
+  <br />
 
   <input type="submit" class="button is-link" value="Check In" />
 </form>

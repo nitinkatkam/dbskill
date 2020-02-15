@@ -14,4 +14,4 @@ yard server --reload --plugin yard-sinatra
 ```
 
 To Do List:
-* Implement paging for list, search, skill match pages
+* Implement paging for list/search pages

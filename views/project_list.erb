@@ -1,0 +1,30 @@
+<br />
+
+<p>
+  <a class="button is-link" href="/project/new">New Project</a>
+</p>
+
+<br />
+
+<table style="width: 80%">
+  <tr>
+    <th>Name</th>
+    <th>Location</th>
+    <th>Actions</th>
+  </tr>
+<% @projects.each do |iter| %>
+  <tr>
+    <td><%= iter['name'] %></td>
+    <td><%= iter['location_name'] %></td>
+    <td>
+        <a class="button" href="/project/edit/<%= iter['_id'] %>">Edit</a>
+        &nbsp;
+        <form method="post" action="<%= '/project/delete/' + iter['_id'] %>" style="display: inline;">
+            <input class="button" type="submit" value="Delete" />
+        </form>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />

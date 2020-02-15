@@ -1,0 +1,45 @@
+<form method="post" action="/project/save">
+  <input type="hidden" name="_id" value="<%= if @project != nil && @project.has_key?('_id') then @project['_id'] else '' end %>" />
+
+  <div class="field">
+  <label class="label" for="name_input">Name</label>
+  <div class="control" style="width: 300px;">
+  <input class="input" placeholder="Name" id="name_input" name="name" value="<%= if @project != nil && @project.has_key?('name') then @project['name'] else '' end %>" />
+  </div>
+  </div>
+
+  <div class="field">
+  <label class="label" for="location_name_input">Location</label>
+  <div class="control" style="width: 300px;">
+  <input class="input" placeholder="Location" id="location_name_input" name="location_name" value="<%= if @project != nil && @project.has_key?('location_name') then @project['location_name'] else '' end %>" />
+  </div>
+  </div>
+
+  <input type="submit" class="button is-link" value="Save" />
+</form>
+
+<br /><br />
+
+<h3 style="font-weight: bold;">Assigned Personnel</h3>
+<br />
+<form method="post" action="/project/assign/<%= @project['_id'] %>">
+    <input class="input" placeholder="Personnel ID" name="personnel_id" style="width: 300px;" />
+    <input type="submit" class="button is-link" value="Assign" />
+</form>
+<br />
+<ul style="list-style: disc;">
+    <% 
+    if @project.has_key? 'personnel'
+    @project['personnel'].each do |person_id| %>
+    <li>
+        <%= person_id %>
+        <form method="post" action="/project/unassign/<%= @project['_id'] %>" style="display: inline">
+            <input type="hidden" name="personnel_id" value="<%= person_id %>">
+            <input type="submit" class="button" value="Unassign" />
+        </form>
+    </li>
+    <% 
+    end 
+    end
+    %>
+</ul>
